@@ -1,0 +1,159 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body,
+html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 2251px;
+  max-height: 4001px;
+  margin: 0 auto;
+}
+
+/* Background image */
+.background {
+  background: url("./Assets/Asset_Png/bg.png") no-repeat center center;
+  background-size: cover;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+/* Header image for "TERIAKK" and text */
+.header-image {
+  background: url("./Assets/Asset_Png/landing.png") no-repeat center;
+  background-size: contain;
+  width: 70%;
+  height: 70%; /* Adjust height as needed */
+  position: absolute;
+  top: -10%;
+  left: 15%;
+}
+
+/* Start button and thermometer container */
+.start-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 48%;
+  width: 100%;
+}
+
+.start-button {
+  background: url("./Assets/Asset_Png/start.png") no-repeat center;
+  background-size: contain;
+  width: 200%; /* Adjust for button size */
+  height: 500px;
+  cursor: pointer;
+  transform: scale(1) translateX(10%);
+  left: 00px;
+}
+
+.thermometer {
+  background: url("./Assets/Asset_Png/thermomether.png") no-repeat center;
+  background-size: contain;
+  width: 20%; /* Adjust for thermometer size */
+  height: 500px;
+  margin-right: 300px;
+  padding: 0;
+  transform: scale(2) rotate(15deg);
+}
+
+/* Product Images */
+.products {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 70%;
+  width: 50%;
+}
+
+.product {
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 100%; /* Adjust size of product images */
+  height: 750px;
+  transform: scale(2) translateX(25%);
+}
+
+.product-img {
+  background-image: url("./Assets/Asset_Png/produk.png");
+}
+
+/* Lightning bolts */
+.lightning-bolt {
+  position: absolute;
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 15%;
+  height: 100px;
+}
+
+.lightning-up {
+  background-image: url("./Assets/Asset_Png/lightning2.png");
+  top: 5%;
+  left: -3%;
+  width: 100%;
+  height: 11%;
+}
+
+.lightning-left {
+  background-image: url("./Assets/Asset_Png/lightning1.png");
+  top: 30%;
+  left: -15%;
+  width: 100%;
+  height: 20%;
+  filter: blur(10px);
+}
+
+.lightning-right {
+  background-image: url("./Assets/Asset_Png/lightning2.png");
+  top: 20%;
+  left: 75%;
+  width: 100%;
+  height: 20%;
+}
+
+/* Surprised Face */
+.surprised-face {
+  background: url("./Assets/Asset_Png/face.png") no-repeat center;
+  background-size: contain;
+  width: 50%;
+  height: 100%;
+  position: absolute;
+  top: -1700px;
+  left: 65%;
+  transform: rotate(-20deg);
+}
+
+/* Responsive Design */
+@media (max-width: 2251px) {
+  .container {
+    max-width: 100%;
+  }
+
+  .start-button,
+  .thermometer,
+  .product {
+    width: auto;
+    height: auto;
+  }
+
+  .lightning-bolt,
+  .surprised-face {
+    width: 10%;
+    height: 80px;
+  }
+}
