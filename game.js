@@ -64,11 +64,6 @@ function updateMeter(volume) {
   // Update the clip-path for the full meter to create a filling effect
   const insetValue = 100 - meterLevel * 100; // Convert level to percentage for clip-path
   meterFull.style.clipPath = `inset(${insetValue}% 0 0 0)`; // Set clip-path based on meter level
-
-  // Check if the player reached a win condition
-  if (meterLevel >= 1) {
-    gameOver(meterLevel); // Pass the final meter level to gameOver
-  }
 }
 
 // Function to format seconds into MM:SS
