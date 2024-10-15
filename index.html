@@ -11,25 +11,64 @@
       <!-- Background -->
       <div class="background"></div>
 
-      <!-- Text and Logo -->
-      <div class="header-image"></div>
+      <!-- Landing Page -->
+      <div class="landing-page">
+        <!-- Header -->
+        <div class="header-image"></div>
 
-      <!-- Start Button and Thermometer -->
-      <div class="start-container">
-        <div class="start-button"></div>
-        <div class="thermometer"></div>
+        <!-- Start Button and Thermometer -->
+        <div class="start-container">
+          <div class="start-button" id="startButton"></div>
+          <div class="thermometer"></div>
+        </div>
+
+        <!-- Product Images -->
+        <div class="products">
+          <div class="product product-img"></div>
+        </div>
+
+        <!-- Lightning Bolts and Surprised Face -->
+        <div class="lightning-bolt lightning-up"></div>
+        <div class="lightning-bolt lightning-left"></div>
+        <div class="lightning-bolt lightning-right"></div>
+        <div class="surprised-face"></div>
       </div>
-
-      <!-- Product Images -->
-      <div class="products">
-        <div class="product product-img"></div>
-      </div>
-
-      <!-- Lightning Bolts and Surprised Face -->
-      <div class="lightning-bolt lightning-up"></div>
-      <div class="lightning-bolt lightning-left"></div>
-      <div class="lightning-bolt lightning-right"></div>
-      <div class="surprised-face"></div>
     </div>
+
+    <!-- Game Page -->
+    <div class="game-page" style="display: none">
+      <!-- Header -->
+      <div class="header-image-game"></div>
+
+      <!-- Timer -->
+      <div class="timer-container">
+        <img id="timerImage" src="./Assets/Asset_Png/timer.png" alt="Timer" />
+        <div class="timerDisplay" id="timerDisplay"></div>
+      </div>
+
+      <!-- Meter -->
+      <div class="meter">
+        <div class="meter-empty"></div>
+        <div class="meter-full"></div>
+      </div>
+    </div>
+
+    <div class="game-over-screen" style="display: none">
+      <!-- Header -->
+      <div class="header-image-game-over"></div>
+
+      <!-- Reward -->
+      <div class="reward"></div>
+
+      <!-- Ornaments -->
+      <div class="lightning-bolt lightning-left-over"></div>
+      <div class="lightning-bolt lightning-right-over"></div>
+      <div class="surprised-face-over"></div>
+
+      <!-- Replay Button -->
+      <div class="replay-button" id="replayButton"></div>
+    </div>
+
+    <script src="game.js"></script>
   </body>
 </html>

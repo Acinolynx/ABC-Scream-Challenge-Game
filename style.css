@@ -1,7 +1,13 @@
+@font-face {
+  font-family: "Font";
+  src: url(Assets/Fonts/KilimanjaroSansRound1.otf);
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Font";
 }
 
 body,
@@ -9,7 +15,6 @@ html {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  font-family: Arial, sans-serif;
 }
 
 .container {
@@ -38,7 +43,104 @@ html {
   height: 70%; /* Adjust height as needed */
   position: absolute;
   top: -10%;
+  left: 12%;
+}
+
+.header-image-game {
+  background: url("./Assets/Asset_Png/game.png") no-repeat center;
+  background-size: contain;
+  width: 70%;
+  height: 70%; /* Adjust height as needed */
+  position: absolute;
+  top: -20%;
   left: 15%;
+}
+
+.header-image-game-over {
+  background: url("./Assets/Asset_Png/gameover.png") no-repeat center;
+  background-size: contain;
+  width: 70%;
+  height: 70%; /* Adjust height as needed */
+  position: absolute;
+  top: -10%;
+  left: 15%;
+}
+
+.timer-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 31%;
+  width: 100%;
+}
+
+#timerImage {
+  width: 50%;
+  height: auto;
+}
+
+.timerDisplay {
+  position: absolute;
+  font-size: 258px;
+  text-align: center;
+  z-index: 3;
+}
+
+.meter {
+  position: relative;
+  width: 50%; /* Width of the meter */
+  height: 50%; /* Height of the meter */
+  position: absolute; /* Position it within the parent */
+  top: 45%; /* Adjust based on your layout */
+  left: 30%; /* Adjust based on your layout */
+  transform: scale(2); /* Adjust size as needed */
+  overflow: hidden; /* Hide overflow for the transition effect */
+}
+
+.meter-empty {
+  background: url("./Assets/Asset_Png/meter-empty.png") no-repeat center;
+  background-size: contain;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.meter-full {
+  background: url("./Assets/Asset_Png/meter-full.png") no-repeat center;
+  background-size: contain;
+  width: 100%;
+  height: 100%; /* Full height for cropping effect */
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  clip-path: inset(100% 0 0 0); /* Start fully hidden */
+  transition: clip-path 0.5s ease-in-out; /* Transition for the clip-path */
+  z-index: 5;
+}
+
+.reward {
+  background: url("./Assets/Asset_Png/meter.png") no-repeat center;
+  background-size: contain;
+  width: 50%;
+  height: 50%; /* Adjust height as needed */
+  position: absolute;
+  top: 40%;
+  left: 25%;
+  transform: scale(2);
+}
+
+.replay-button {
+  background: url("./Assets/Asset_Png/replay.png") no-repeat center;
+  background-size: contain;
+  width: 50%;
+  height: 10%; /* Adjust height as needed */
+  position: absolute;
+  top: 85%;
+  left: 25%;
 }
 
 /* Start button and thermometer container */
@@ -58,7 +160,6 @@ html {
   height: 500px;
   cursor: pointer;
   transform: scale(1) translateX(10%);
-  left: 00px;
 }
 
 .thermometer {
@@ -126,6 +227,23 @@ html {
   height: 20%;
 }
 
+.lightning-left-over {
+  background-image: url("./Assets/Asset_Png/lightning1.png");
+  top: 45%;
+  left: -15%;
+  width: 100%;
+  height: 20%;
+  filter: blur(10px);
+}
+
+.lightning-right-over {
+  background-image: url("./Assets/Asset_Png/lightning2.png");
+  top: 75%;
+  left: 75%;
+  width: 100%;
+  height: 10%;
+}
+
 /* Surprised Face */
 .surprised-face {
   background: url("./Assets/Asset_Png/face.png") no-repeat center;
@@ -135,6 +253,17 @@ html {
   position: absolute;
   top: -1700px;
   left: 65%;
+  transform: rotate(-20deg);
+}
+
+.surprised-face-over {
+  background: url("./Assets/Asset_Png/face.png") no-repeat center;
+  background-size: contain;
+  width: 30%;
+  height: 100%;
+  position: absolute;
+  top: -2%;
+  left: 73%;
   transform: rotate(-20deg);
 }
 
@@ -155,5 +284,104 @@ html {
   .surprised-face {
     width: 10%;
     height: 80px;
+  }
+}
+
+/* Responsive Design for 450px or lower */
+@media (max-width: 450px) {
+  body,
+  html {
+    width: 100%;
+    height: 100%;
+  }
+
+  .container {
+    max-width: 100%;
+    max-height: none; /* Remove height limitation */
+  }
+
+  /* Background image */
+  .background {
+    background-size: cover; /* Ensure background covers the entire screen */
+  }
+
+  /* Header images */
+  .header-image,
+  .header-image-game,
+  .header-image-game-over {
+    width: 90%; /* Adjust width to fit smaller screens */
+    height: auto; /* Maintain aspect ratio */
+    top: 5%; /* Adjust top positioning */
+    left: 5%; /* Center align */
+  }
+
+  /* Timer and Meter Containers */
+  .timer-container {
+    top: 25%; /* Adjust for smaller screen */
+  }
+
+  #timerImage {
+    width: 70%; /* Adjust size for smaller screen */
+  }
+
+  .timerDisplay {
+    font-size: 80px; /* Decrease font size for better visibility */
+  }
+
+  .meter {
+    width: 80%; /* Increase width to fill more space */
+    height: 30%; /* Reduce height for small screens */
+    top: 40%; /* Adjust positioning */
+    left: 10%; /* Center align */
+    transform: scale(1.5); /* Scale down */
+  }
+
+  .reward,
+  .replay-button {
+    width: 70%; /* Adjust width */
+    height: auto; /* Maintain aspect ratio */
+    top: 70%; /* Position lower for better visibility */
+    left: 15%; /* Center align */
+    transform: scale(1.5); /* Scale down */
+  }
+
+  /* Start button and thermometer container */
+  .start-container {
+    top: 50%; /* Adjust position */
+  }
+
+  .start-button {
+    width: 150%; /* Scale down */
+    height: auto; /* Maintain aspect ratio */
+  }
+
+  .thermometer {
+    width: 30%; /* Adjust size */
+    height: auto; /* Maintain aspect ratio */
+    margin-right: 50px; /* Reduce margin for smaller screens */
+  }
+
+  /* Product Images */
+  .products {
+    top: 80%; /* Lower position for small screens */
+    width: 80%; /* Increase width */
+  }
+
+  .product {
+    height: auto; /* Maintain aspect ratio */
+    transform: scale(1.2); /* Scale down */
+  }
+
+  /* Lightning bolts */
+  .lightning-bolt {
+    width: 15%; /* Adjust size */
+    height: 60px; /* Reduce height */
+  }
+
+  /* Surprised Face */
+  .surprised-face,
+  .surprised-face-over {
+    width: 40%; /* Adjust width */
+    height: auto; /* Maintain aspect ratio */
   }
 }
