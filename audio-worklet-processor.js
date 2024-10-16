@@ -1,31 +1,21 @@
 class VolumeProcessor extends AudioWorkletProcessor {
-  constructor() {
-    super();
-  }
+  process(inputs, outputs, parameters) {
+    const input = inputs[0];
 
-  process(inputs) {
-    // Check if there's any input
-    if (inputs.length > 0) {
-      const input = inputs[0]; // Get the first channel input
-      if (input.length > 0) {
-        const channelData = input[0]; // Get the first channel data
+    if (input.length > 0) {
+      const channelData = input[0]; // Get the first channel
+      let sum = 0;
 
-        let sum = 0;
-        // Calculate the sum of squares for RMS calculation
-        for (let i = 0; i < channelData.length; i++) {
-          sum += channelData[i] * channelData[i];
-        }
-        // Calculate RMS
-        const rms = Math.sqrt(sum / channelData.length);
-        // Send the volume level back to the main thread
-        this.port.postMessage({ volume: rms });
+      for (let i = 0; i < channelData.length; i++) {
+        sum += Math.abs(channelData[i]); // Calculate the absolute value for volume
       }
+
+      const volume = sum / channelData.length; // Average the values for volume
+      this.port.postMessage({ volume: volume }); // Send the volume back
     }
 
-    // Return true to keep the processor alive
-    return true;
+    return true; // Keep the processor alive
   }
 }
 
-// Register the processor with a unique name
 registerProcessor("volume-processor", VolumeProcessor);

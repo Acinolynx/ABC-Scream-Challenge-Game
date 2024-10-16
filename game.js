@@ -1,12 +1,13 @@
 let micAccess = false;
 let audioContext, meterElement, meterFull, meterEmpty;
 let meterLevel = 0;
-let screamThreshold = 0.09; // Adjust this to control scream sensitivity
+let screamThreshold = 0.03; // Adjust this to control scream sensitivity
 let stream;
 let countdownTimer;
 let gameDuration = 15; // Set game duration
 let bgm;
-let isMuted = false;
+let countdownAudio; // New variable for countdown audio
+let cheerAudio; // New variable for cheer audio
 let countdownDisplay = document.getElementById("timerDisplay");
 let startButton = document.getElementById("startButton");
 let replayButton = document.getElementById("replayButton");
@@ -42,6 +43,7 @@ async function accessMic() {
       // Handle messages from the processor
       volumeProcessorNode.port.onmessage = (event) => {
         const volume = event.data.volume;
+        console.log("Detected volume:", volume); // Debugging line
         updateMeter(volume);
       };
     } catch (err) {
@@ -65,31 +67,26 @@ function playBGM() {
   });
 }
 
-// Mute/Unmute toggle function
-function toggleMute() {
-  if (isMuted) {
-    bgm.muted = false; // Unmute the BGM
-    document.getElementById("muteButton").textContent = "🔊"; // Change button icon to audio playing
-  } else {
-    bgm.muted = true; // Mute the BGM
-    document.getElementById("muteButton").textContent = "🔇"; // Change button icon to muted
-  }
-  isMuted = !isMuted; // Toggle the mute state
+// Load countdown and cheer audio
+function loadAudio() {
+  countdownAudio = new Audio("Assets/Audio/countdown.mp3"); // Replace with your countdown audio file
+  cheerAudio = new Audio("Assets/Audio/cheer.mp3"); // Replace with your cheer audio file
 }
 
 // Function to update the scream meter based on sound volume
 function updateMeter(volume) {
   if (volume > screamThreshold) {
-    meterLevel += 0.05; // Increase meter level for scream
+    meterLevel += 0.001; // Increase meter level for scream
     if (meterLevel > 1) meterLevel = 1; // Cap meter level at 1
-  } else {
-    meterLevel -= 0.05; // Decrease meter level for silence
-    if (meterLevel < 0) meterLevel = 0; // Prevent meter from going negative
   }
 
   // Update the clip-path for the full meter to create a filling effect
   const insetValue = 100 - meterLevel * 100; // Convert level to percentage for clip-path
   meterFull.style.clipPath = `inset(${insetValue}% 0 0 0)`; // Set clip-path based on meter level
+
+  if (meterLevel >= 1) {
+    gameOver(meterLevel); // Pass the final meter level to gameOver
+  }
 }
 
 // Function to format seconds into MM:SS
@@ -101,9 +98,11 @@ function formatTime(seconds) {
 
 // Start the actual game
 function startGame() {
+  bgm.pause();
   gameDuration = 15; // Reset game duration for each new game
   countdownDisplay.innerText = formatTime(gameDuration);
   countdownDisplay.style.color = "red"; // Show initial timer in MM:SS format
+  countdownDisplay.style.display = "block";
   countdownTimer = setInterval(() => {
     gameDuration--;
     countdownDisplay.innerText = formatTime(gameDuration); // Update timer text in MM:SS format
@@ -117,6 +116,10 @@ function startGame() {
 // Function to handle game over logic and show rewards
 function gameOver(finalMeterLevel) {
   clearInterval(countdownTimer);
+  // Stop the BGM and play the cheer audio
+  bgm.pause();
+  cheerAudio.play();
+
   // Hide game page and show game over screen
   document.querySelector(".game-page").style.display = "none";
   document.querySelector(".game-over-screen").style.display = "block";
@@ -147,9 +150,25 @@ function checkReward(finalMeterLevel) {
 
 // Initialize the game when the player clicks the start button
 startButton.addEventListener("click", function () {
-  document.querySelector(".landing-page").style.display = "none";
-  document.querySelector(".game-page").style.display = "block";
-  startGame(); // Start the game countdown immediately
+  // Stop the BGM and play the countdown audio
+  bgm.pause(); // Stop background music
+  countdownAudio.play(); // Start countdown audio
+
+  // Transition to the game page and wait for the countdown audio to finish
+  document.querySelector(".landing-page").style.display = "none"; // Hide landing page
+  countdownDisplay.style.color = "red";
+  document.querySelector(".game-page").style.display = "block"; // Show game page
+
+  // Display the countdown timer without starting it
+  countdownDisplay.innerText = formatTime(gameDuration); // Show the timer
+  countdownDisplay.style.display = "block"; // Ensure the timer is visible
+
+  // Wait for the countdown audio to finish before accessing the microphone and starting the game
+  countdownAudio.onended = () => {
+    accessMic(); // Access microphone after audio
+    playBGM(); // Restart BGM after countdown
+    startGame(); // Start the game countdown immediately
+  };
 });
 
 // Replay button to restart the game
@@ -157,18 +176,21 @@ replayButton.addEventListener("click", function () {
   document.querySelector(".game-over-screen").style.display = "none";
   document.querySelector(".landing-page").style.display = "block";
   meterLevel = 0; // Reset meter level
-  meterFull.style.height = "0%"; // Reset meter visuals
+  meterFull.style.clipPath = `inset(100% 0 0 0)`; // Reset meter visuals
+
+  // Reset the BGM
+  bgm.pause(); // Pause current BGM
+  bgm.currentTime = 0; // Reset BGM to start
+  bgm.play(); // Play BGM again
 });
 
-// Get meter elements
+// Get meter elements and load audio files
 window.onload = function () {
+  loadAudio(); // Load countdown and cheer audio
   accessMic(); // Access microphone
   playBGM(); // Start the BGM on page load
   meterFull = document.querySelector(".meter-full");
   meterEmpty = document.querySelector(".meter-empty");
-
-  const muteButton = document.getElementById("muteButton");
-  muteButton.addEventListener("click", toggleMute);
 
   // Autoplay after user interaction
   window.addEventListener(
