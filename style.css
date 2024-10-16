@@ -17,6 +17,22 @@ html {
   overflow: hidden;
 }
 
+/* Breathing Animation */
+@keyframes breathingEffect {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 .container {
   position: relative;
   width: 100%;
@@ -26,7 +42,6 @@ html {
   margin: 0 auto;
 }
 
-/* Background image */
 .background {
   background: url("./Assets/Asset_Png/bg.png") no-repeat center center;
   background-size: cover;
@@ -40,30 +55,33 @@ html {
   background: url("./Assets/Asset_Png/landing.png") no-repeat center;
   background-size: contain;
   width: 70%;
-  height: 70%; /* Adjust height as needed */
+  height: 70%;
   position: absolute;
   top: -10%;
   left: 12%;
+  animation: breathingEffect 3s ease-in-out infinite;
 }
 
 .header-image-game {
   background: url("./Assets/Asset_Png/game.png") no-repeat center;
   background-size: contain;
   width: 70%;
-  height: 70%; /* Adjust height as needed */
+  height: 70%;
   position: absolute;
   top: -20%;
   left: 15%;
+  animation: breathingEffect 3s ease-in-out infinite;
 }
 
 .header-image-game-over {
   background: url("./Assets/Asset_Png/gameover.png") no-repeat center;
   background-size: contain;
   width: 70%;
-  height: 70%; /* Adjust height as needed */
+  height: 70%;
   position: absolute;
   top: -10%;
   left: 15%;
+  animation: breathingEffect 3s ease-in-out infinite;
 }
 
 .timer-container {
@@ -85,17 +103,18 @@ html {
   font-size: 258px;
   text-align: center;
   z-index: 3;
+  animation: breathingEffect 3s ease-in-out infinite;
 }
 
 .meter {
   position: relative;
-  width: 50%; /* Width of the meter */
-  height: 50%; /* Height of the meter */
-  position: absolute; /* Position it within the parent */
-  top: 45%; /* Adjust based on your layout */
-  left: 30%; /* Adjust based on your layout */
-  transform: scale(2); /* Adjust size as needed */
-  overflow: hidden; /* Hide overflow for the transition effect */
+  width: 50%;
+  height: 50%;
+  position: absolute;
+  top: 45%;
+  left: 30%;
+  transform: scale(2);
+  overflow: hidden;
 }
 
 .meter-empty {
@@ -113,34 +132,41 @@ html {
   background: url("./Assets/Asset_Png/meter-full.png") no-repeat center;
   background-size: contain;
   width: 100%;
-  height: 100%; /* Full height for cropping effect */
+  height: 100%;
   position: absolute;
   bottom: 0;
   left: 0;
-  clip-path: inset(100% 0 0 0); /* Start fully hidden */
-  transition: clip-path 0.5s ease-in-out; /* Transition for the clip-path */
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 0.3s ease-in-out;
   z-index: 5;
+}
+
+.reward-container {
+  position: absolute;
+  top: 15%;
+  width: 100%;
+  height: 100%;
+  animation: breathingEffect 3s ease-in-out infinite;
+  overflow: hidden;
 }
 
 .reward {
   background: url("./Assets/Asset_Png/meter.png") no-repeat center;
   background-size: contain;
-  width: 50%;
-  height: 50%; /* Adjust height as needed */
-  position: absolute;
-  top: 40%;
-  left: 25%;
-  transform: scale(2);
+  width: 100%;
+  height: 100%;
+  transform: scale(1);
 }
 
 .replay-button {
   background: url("./Assets/Asset_Png/replay.png") no-repeat center;
   background-size: contain;
   width: 50%;
-  height: 10%; /* Adjust height as needed */
+  height: 10%;
   position: absolute;
   top: 85%;
   left: 25%;
+  animation: breathingEffect 3s ease-in-out infinite;
 }
 
 /* Start button and thermometer container */
@@ -151,12 +177,13 @@ html {
   position: absolute;
   top: 48%;
   width: 100%;
+  animation: breathingEffect 3s ease-in-out infinite;
 }
 
 .start-button {
   background: url("./Assets/Asset_Png/start.png") no-repeat center;
   background-size: contain;
-  width: 200%; /* Adjust for button size */
+  width: 200%;
   height: 500px;
   cursor: pointer;
   transform: scale(1) translateX(10%);
@@ -165,26 +192,27 @@ html {
 .thermometer {
   background: url("./Assets/Asset_Png/thermomether.png") no-repeat center;
   background-size: contain;
-  width: 20%; /* Adjust for thermometer size */
+  width: 20%;
   height: 500px;
   margin-right: 300px;
   padding: 0;
   transform: scale(2) rotate(15deg);
 }
 
-/* Product Images */
+/* Product container*/
 .products {
   display: flex;
   justify-content: center;
   position: absolute;
-  top: 70%;
+  top: 72%;
   width: 50%;
+  animation: breathingEffect 3s ease-in-out infinite;
 }
 
 .product {
   background-size: contain;
   background-repeat: no-repeat;
-  width: 100%; /* Adjust size of product images */
+  width: 100%;
   height: 750px;
   transform: scale(2) translateX(25%);
 }
@@ -193,7 +221,6 @@ html {
   background-image: url("./Assets/Asset_Png/produk.png");
 }
 
-/* Lightning bolts */
 .lightning-bolt {
   position: absolute;
   background-size: contain;
@@ -267,6 +294,24 @@ html {
   transform: rotate(-20deg);
 }
 
+.mute-container {
+  position: absolute;
+  top: 2%;
+  right: 95%;
+  z-index: 10;
+}
+
+.mute-button {
+  background-color: transparent;
+  border: none;
+  font-size: 32px;
+  cursor: pointer;
+  outline: none;
+  color: white;
+  transform: scale(3);
+  opacity: 0.7;
+}
+
 /* Responsive Design */
 @media (max-width: 2251px) {
   .container {
@@ -284,104 +329,5 @@ html {
   .surprised-face {
     width: 10%;
     height: 80px;
-  }
-}
-
-/* Responsive Design for 450px or lower */
-@media (max-width: 450px) {
-  body,
-  html {
-    width: 100%;
-    height: 100%;
-  }
-
-  .container {
-    max-width: 100%;
-    max-height: none; /* Remove height limitation */
-  }
-
-  /* Background image */
-  .background {
-    background-size: cover; /* Ensure background covers the entire screen */
-  }
-
-  /* Header images */
-  .header-image,
-  .header-image-game,
-  .header-image-game-over {
-    width: 90%; /* Adjust width to fit smaller screens */
-    height: auto; /* Maintain aspect ratio */
-    top: 5%; /* Adjust top positioning */
-    left: 5%; /* Center align */
-  }
-
-  /* Timer and Meter Containers */
-  .timer-container {
-    top: 25%; /* Adjust for smaller screen */
-  }
-
-  #timerImage {
-    width: 70%; /* Adjust size for smaller screen */
-  }
-
-  .timerDisplay {
-    font-size: 80px; /* Decrease font size for better visibility */
-  }
-
-  .meter {
-    width: 80%; /* Increase width to fill more space */
-    height: 30%; /* Reduce height for small screens */
-    top: 40%; /* Adjust positioning */
-    left: 10%; /* Center align */
-    transform: scale(1.5); /* Scale down */
-  }
-
-  .reward,
-  .replay-button {
-    width: 70%; /* Adjust width */
-    height: auto; /* Maintain aspect ratio */
-    top: 70%; /* Position lower for better visibility */
-    left: 15%; /* Center align */
-    transform: scale(1.5); /* Scale down */
-  }
-
-  /* Start button and thermometer container */
-  .start-container {
-    top: 50%; /* Adjust position */
-  }
-
-  .start-button {
-    width: 150%; /* Scale down */
-    height: auto; /* Maintain aspect ratio */
-  }
-
-  .thermometer {
-    width: 30%; /* Adjust size */
-    height: auto; /* Maintain aspect ratio */
-    margin-right: 50px; /* Reduce margin for smaller screens */
-  }
-
-  /* Product Images */
-  .products {
-    top: 80%; /* Lower position for small screens */
-    width: 80%; /* Increase width */
-  }
-
-  .product {
-    height: auto; /* Maintain aspect ratio */
-    transform: scale(1.2); /* Scale down */
-  }
-
-  /* Lightning bolts */
-  .lightning-bolt {
-    width: 15%; /* Adjust size */
-    height: 60px; /* Reduce height */
-  }
-
-  /* Surprised Face */
-  .surprised-face,
-  .surprised-face-over {
-    width: 40%; /* Adjust width */
-    height: auto; /* Maintain aspect ratio */
   }
 }

@@ -5,7 +5,9 @@ let screamThreshold = 0.09; // Adjust this to control scream sensitivity
 let stream;
 let countdownTimer;
 let gameDuration = 15; // Set game duration
-let countdownDisplay = document.getElementById("timerDisplay"); // Update reference to timerDisplay
+let bgm;
+let isMuted = false;
+let countdownDisplay = document.getElementById("timerDisplay");
 let startButton = document.getElementById("startButton");
 let replayButton = document.getElementById("replayButton");
 
@@ -51,6 +53,30 @@ async function accessMic() {
   }
 }
 
+// Function to initialize BGM
+function playBGM() {
+  bgm = new Audio("Assets/Audio/bgm.mp3");
+  bgm.loop = true; // Loop the music continuously
+  bgm.volume = 0.15; // Set volume
+  bgm.play().catch((error) => {
+    console.log(
+      "Autoplay failed due to browser restrictions, user interaction required"
+    );
+  });
+}
+
+// Mute/Unmute toggle function
+function toggleMute() {
+  if (isMuted) {
+    bgm.muted = false; // Unmute the BGM
+    document.getElementById("muteButton").textContent = "🔊"; // Change button icon to audio playing
+  } else {
+    bgm.muted = true; // Mute the BGM
+    document.getElementById("muteButton").textContent = "🔇"; // Change button icon to muted
+  }
+  isMuted = !isMuted; // Toggle the mute state
+}
+
 // Function to update the scream meter based on sound volume
 function updateMeter(volume) {
   if (volume > screamThreshold) {
@@ -73,7 +99,7 @@ function formatTime(seconds) {
   return `${minutes}:${secs}`;
 }
 
-// Start the actual game, including the 15-second timer for the challenge
+// Start the actual game
 function startGame() {
   gameDuration = 15; // Reset game duration for each new game
   countdownDisplay.innerText = formatTime(gameDuration);
@@ -123,7 +149,6 @@ function checkReward(finalMeterLevel) {
 startButton.addEventListener("click", function () {
   document.querySelector(".landing-page").style.display = "none";
   document.querySelector(".game-page").style.display = "block";
-  accessMic();
   startGame(); // Start the game countdown immediately
 });
 
@@ -137,6 +162,22 @@ replayButton.addEventListener("click", function () {
 
 // Get meter elements
 window.onload = function () {
+  accessMic(); // Access microphone
+  playBGM(); // Start the BGM on page load
   meterFull = document.querySelector(".meter-full");
   meterEmpty = document.querySelector(".meter-empty");
+
+  const muteButton = document.getElementById("muteButton");
+  muteButton.addEventListener("click", toggleMute);
+
+  // Autoplay after user interaction
+  window.addEventListener(
+    "click",
+    function () {
+      if (bgm.paused) {
+        bgm.play();
+      }
+    },
+    { once: true }
+  ); // Ensures the play function is only triggered once
 };
