@@ -1,7 +1,7 @@
 let micAccess = false;
 let audioContext, meterElement, meterFull, meterEmpty;
 let meterLevel = 0;
-let screamThreshold = 0.03; // Adjust this to control scream sensitivity
+let screamThreshold = 0.01; // Adjust this to control scream sensitivity
 let stream;
 let countdownTimer;
 let gameDuration = 15; // Set game duration
@@ -76,7 +76,7 @@ function loadAudio() {
 // Function to update the scream meter based on sound volume
 function updateMeter(volume) {
   if (volume > screamThreshold) {
-    meterLevel += 0.001; // Increase meter level for scream
+    meterLevel += 0.002; // Increase meter level for scream
     if (meterLevel > 1) meterLevel = 1; // Cap meter level at 1
   }
 
