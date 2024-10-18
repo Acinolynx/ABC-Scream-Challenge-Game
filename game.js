@@ -4,13 +4,14 @@ let meterLevel = 0;
 let screamThreshold = 0.03; // Adjust this to control scream sensitivity
 let stream;
 let countdownTimer;
-let gameDuration = 15; // Set game duration
+let gameDuration = 20; // Set game duration
 let bgm;
 let countdownAudio; // New variable for countdown audio
 let cheerAudio; // New variable for cheer audio
 let countdownDisplay = document.getElementById("timerDisplay");
 let startButton = document.getElementById("startButton");
 let replayButton = document.getElementById("replayButton");
+let countdownOverlay = document.getElementById("countdownOverlay"); // Countdown overlay div
 
 // Reward thresholds for colors
 const thresholds = {
@@ -19,6 +20,10 @@ const thresholds = {
   yellow: 0.75, // 51% to 75%: yellow
   red: 1, // 76% to 100%: red
 };
+
+// Countdown numbers and index
+let countdownNumbers = ["3", "2", "1", " "];
+let countdownIndex = 0;
 
 // Access microphone and handle audio
 async function accessMic() {
@@ -99,7 +104,7 @@ function formatTime(seconds) {
 // Start the actual game
 function startGame() {
   bgm.pause();
-  gameDuration = 15; // Reset game duration for each new game
+  gameDuration = 20; // Reset game duration for each new game
   countdownDisplay.innerText = formatTime(gameDuration);
   countdownDisplay.style.color = "red"; // Show initial timer in MM:SS format
   countdownDisplay.style.display = "block";
@@ -148,27 +153,45 @@ function checkReward(finalMeterLevel) {
   ).style.backgroundImage = `url(${rewardImage})`;
 }
 
+// Countdown animation function
+function showCountdown() {
+  if (countdownIndex < countdownNumbers.length) {
+    countdownOverlay.innerText = countdownNumbers[countdownIndex];
+    countdownOverlay.classList.add("countdown-show");
+    countdownOverlay.classList.remove("countdown-hide");
+
+    setTimeout(() => {
+      countdownOverlay.classList.add("countdown-hide");
+      countdownOverlay.classList.remove("countdown-show");
+      countdownIndex++;
+      setTimeout(showCountdown, 350); // Delay before showing the next number
+    }, 500); // 1 second for each number
+  } else {
+    // Start the game after the countdown is finished
+    countdownOverlay.style.display = "none"; // Hide countdown overlay after GO!
+    countdownIndex = 0; // Reset index for next game
+
+    accessMic(); // Access microphone after countdown
+    playBGM(); // Restart BGM after countdown
+    startGame(); // Start the game countdown immediately
+  }
+}
+
 // Initialize the game when the player clicks the start button
 startButton.addEventListener("click", function () {
   // Stop the BGM and play the countdown audio
   bgm.pause(); // Stop background music
   countdownAudio.play(); // Start countdown audio
 
-  // Transition to the game page and wait for the countdown audio to finish
+  // Transition to the game page
   document.querySelector(".landing-page").style.display = "none"; // Hide landing page
   countdownDisplay.style.color = "red";
   document.querySelector(".game-page").style.display = "block"; // Show game page
 
-  // Display the countdown timer without starting it
+  // Display the countdown overlay and start the countdown animation
   countdownDisplay.innerText = formatTime(gameDuration); // Show the timer
-  countdownDisplay.style.display = "block"; // Ensure the timer is visible
-
-  // Wait for the countdown audio to finish before accessing the microphone and starting the game
-  countdownAudio.onended = () => {
-    accessMic(); // Access microphone after audio
-    playBGM(); // Restart BGM after countdown
-    startGame(); // Start the game countdown immediately
-  };
+  countdownOverlay.style.display = "block";
+  showCountdown(); // Start the number countdown from 3 to GO!
 });
 
 // Replay button to restart the game
@@ -187,7 +210,6 @@ replayButton.addEventListener("click", function () {
 // Get meter elements and load audio files
 window.onload = function () {
   loadAudio(); // Load countdown and cheer audio
-  accessMic(); // Access microphone
   playBGM(); // Start the BGM on page load
   meterFull = document.querySelector(".meter-full");
   meterEmpty = document.querySelector(".meter-empty");
